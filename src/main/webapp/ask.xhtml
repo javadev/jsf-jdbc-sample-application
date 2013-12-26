@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body> 
+    	<ui:composition template="./commonLayout.xhtml"> 
+            <ui:define name="content">
+                <h:form>
+                    <table>                 
+                        <ui:repeat  value="#{askBean.questions}" var="o">
+                            <tr>
+                                <td>
+                                    <span class="searchresulttitle" style="text-decoration: none;">Question: </span><h:outputText class="searchresulttitle" value="#{o.question}" escape="false"></h:outputText>
+                                    <h:outputLink rendered="#{not empty o.attachment}" target="_blank" value='.#{o.attachment}'>
+                                    <img id="btnImage" src='./Images/Attachment.png' class="AttachmentImage"></img></h:outputLink><br />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span CssClass="searchresultanswer"><h:outputText rendered="#{not empty o.answer}" value='Answer: #{o.answer}' escape="false"></h:outputText><h:outputText value="-" rendered="#{empty o.answer}"></h:outputText></span>
+                                </td>
+                            </tr>                                
+                        </ui:repeat>
+                    </table>
+                </h:form>
+                <h:form enctype="multipart/form-data">
+                    <h2>Didn't find an answer? Submit your question today!</h2><br /><br />
+                    <table>
+                        <tr>
+                            <td>Question: </td>
+                            <td>
+                                <h:inputText id="txtNewQuestion" style="width:300px" value='#{askBean.newQuestion}'>
+                                    <f:validateRequired></f:validateRequired>
+                                </h:inputText>         
+                                <h:message for="txtNewQuestion" class="errorField" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Attachment:</td>
+                            <td>
+                                <h:inputFile id="fileNewQuestion" value='#{askBean.newQuestionFile}'>
+                                    <f:validateRequired></f:validateRequired>
+                                </h:inputFile>         
+                                <h:outputText class="failureNotification" id="lblError" rendered="#{not empty askBean.error}" value='#{askBean.error}'></h:outputText>
+                                <h:message for="fileNewQuestion" class="failureNotification" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <h:commandLink id="btnSubmitQuestion" class="loginButton" action="#{askBean.doAddQuestion}">Submit a question</h:commandLink>                                
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </ui:define>		
+    	</ui:composition>
+    </h:body>
+</html>
+

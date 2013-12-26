@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:body> 
+    	<ui:composition template="./commonLayout.xhtml"> 
+            <ui:define name="content">
+                <f:event listener="#{accountDetailsBean.initAccountData()}" type="preRenderView" />
+                Account number: #{accountDetailsBean.accountNum}<br />Owner: #{accountDetailsBean.owner}<br />
+                <b>&lt;Last #{accountDetailsBean.numOfDays} days&gt;</b>&nbsp;&nbsp;&nbsp;<a href="">Last 30 days</a>&nbsp;&nbsp;&nbsp;<a href="">Last 60 days</a>
+                
+                <h:dataTable value="#{accountDetailsBean.currentAccountData.data}" var="o" class="accountDetailsTable" border="1"> 
+                    <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Transaction date</f:facet>
+                            <!-- row record -->
+                            #{o.date.toString()}
+                    </h:column>
+                    <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Transaction description</f:facet>
+                            <!-- row record -->
+                            #{o.description}
+                    </h:column>
+                    <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Credit/Debit</f:facet>
+                            <!-- row record -->
+                            #{o.creditDebit}
+                    </h:column>
+                    <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Balance</f:facet>
+                            <!-- row record -->
+                            <span class="#{0 gt o.balance ? 'NegativeBalance' : 'PositiveBalance'}">#{o.balance}</span>
+                    </h:column>
+                    <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Transaction No.</f:facet>
+                            <!-- row record -->
+                            #{o.transactionNumber}
+                    </h:column>
+                </h:dataTable>
+            </ui:define>		
+    	</ui:composition>
+    </h:body>
+</html>
+
